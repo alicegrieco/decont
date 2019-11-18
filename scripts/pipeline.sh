@@ -1,5 +1,23 @@
+echo "the pipeline is starting..."
+echo
+echo "Obtaining the data..."
+cd data
+wget https://bioinformatics.cnio.es/data/courses/decont/C57BL_6NJ-12.5dpp.1.1s_sRNA.fastq.gz
+wget https://bioinformatics.cnio.es/data/courses/decont/C57BL_6NJ-12.5dpp.1.2s_sRNA.fastq.gz
+wget https://bioinformatics.cnio.es/data/courses/decont/SPRET_EiJ-12.5dpp.1.1s_sRNA.fastq.gz
+wget https://bioinformatics.cnio.es/data/courses/decont/SPRET_EiJ-12.5dpp.1.2s_sRNA.fastq.gz
+echo
+echo "Data downloaded"
+echo
+echo "Uncrompressing them..."
+echo
+cd data
+gunzip -k *.fastq.gz
+echo "data uncompressed"
+echo
+
 #Download all the files specified in data/filenames
-for url in $(<list_of_urls>) #TODO
+for url in $(ls data/urls/*.fastq.gz) #TODO
 do
     bash scripts/download.sh $url data
 done
