@@ -8,22 +8,44 @@ do
     bash scripts/download.sh $url data
 done
 
+echo
+echo "Downloading the contaminants..."
 # Download the contaminants fasta file, and uncompress it
-bash scripts/download.sh <contaminants_url> res yes #TODO
+bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res yes
+gunzip -k res/contaminants.fasta.gz
+echo
+echo
+echo
+echo "contaminats have been downloaded and uncompressed successfully"
+echo
+echo
+echo "Running STAR index..."
 
 # Index the contaminants file
 bash scripts/index.sh res/contaminants.fasta res/contaminants_idx
 
+
+echo "Merging the samples into a single file..."
 # Merge the samples into a single file
-for sid in $(<list_of_sample_ids) #TODO
+mkdir -p out/merged
+echo
+for sid in $(ls data/*.fastq.gz | cut -d "_" -f1 | sed "s:data/::" | sort | uniq) #TODO
 do
-    bash scripts/merge_fastqs.sh data out/merged $sid
+    bash scripts/merge_fastqs.sh data/${sid}*.fastq.gz out/merged $sid
 done
 
+
+echo" Running Cutadapt..."
+mkdir -p log/cutadapt
+mkdir -p out/cutadapt
+for sid in $(ls data/*.fastq.gz | cut -d "-" -f1 | sed 's:data/::' | sort | uniq) #TODO
+do
+cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o out/cutadapt/${sid}.trimmed.fastq.gz out/merged/${sid}.fastq.gz > log/cutadapt/${sid}.log
 # TODO: run cutadapt for all merged files
 # cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o <trimmed_file> <input_file> > <log_file>
-
+echo "done"
 #TODO: run STAR for all trimmed files
+echo "Running STAR for all trimmed files..."
 for fname in out/trimmed/*.fastq.gz
 do
     # you will need to obtain the sample ID from the filename
