@@ -29,7 +29,7 @@ echo "Merging the samples into a single file..."
 # Merge the samples into a single file
 mkdir -p out/merged
 echo
-for sid in $(ls data/*.fastq.gz | cut -d "_" -f1 | sed "s:data/::" | sort | uniq) #TODO
+for sid in $(ls data/*.fastq.gz | cut -d "_" -f1 | sed "s:data/::" | sort | uniq) #Todo
 do
     bash scripts/merge_fastqs.sh data/${sid}*.fastq.gz out/merged $sid
 done
