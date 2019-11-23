@@ -2,11 +2,15 @@
 # into a single file, which should be stored in the output directory specified by the second argument.
 # The directory containing the samples is indicated by the first argument.
 echo "Merging the files..."
-sid=$4
-for sid
-do
-	cat data/${sid}*.fastq.gz > out/merged/${sid}.merged.fastq.gz
-done
+input=$1
+out=$2
+sid=$3
+if [ "$1" == "data" ] 
+then
+	cat $1/$3-12.5dpp.1.1s_sRNA.fastq.gz $1/$3-12.5dpp.1.2s_sRNA.fastq.gz  > $2/$3-12.5dpp_sRNA_merged.fastq.gz
+	echo "merged $sid"
+else
+	echo "Error"
+fi
 
-echo "Merged $sid"
 
