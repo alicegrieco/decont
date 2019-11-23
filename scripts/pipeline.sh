@@ -40,7 +40,7 @@ mkdir -p log/cutadapt
 mkdir -p out/cutadapt
 for sid in $(ls out/merged/*.fastq.gz | cut -d "-" -f1 | sed 's:out/merged::' | sort | uniq) #TODO
 do
-	cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o out/cutadapt/${sid}.trimmed.fastq.gz out/merged/${sid}.fastq.gz > log/cutadapt/${sid}.log
+	cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o out/cutadapt/${sid}.trimmed.fastq.gz out/merged/${sid}_merged.fastq.gz > log/cutadapt/${sid}.log
 done
 
 # TODO: run cutadapt for all merged files
@@ -48,10 +48,10 @@ done
 echo "Cutadapt has done"
 #TODO: run STAR for all trimmed files
 echo "Running STAR for all trimmed files..."
-for fname in out/trimmed/*.fastq.gz
+for fname in out/cutadapt/*.fastq.gz
 do
     # you will need to obtain the sample ID from the filename
-    sid=$(echo $fname | sed 's:out/trimmed/::' | cut -d "." -f1)
+    sid=$(echo $fname | sed 's:out/cutadapt/::' | cut -d "." -f1)
 
     # mkdir -p out/star/$sid
 mkdir -p out/star/$sid

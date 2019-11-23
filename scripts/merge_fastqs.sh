@@ -7,7 +7,7 @@ out=$2
 sid=$3
 if [ "$1" == "data" ] 
 then
-	cat $1/$3-12.5dpp.1.1s_sRNA.fastq.gz $1/$3-12.5dpp.1.2s_sRNA.fastq.gz  > $2/$3-12.5dpp_sRNA_merged.fastq.gz
+	cat $1/$3-12.5dpp.1.1s_sRNA.fastq.gz $1/$3-12.5dpp.1.2s_sRNA.fastq.gz  > $2/$3_merged.fastq.gz
 	echo "merged $sid"
 else
 	echo "Error"
