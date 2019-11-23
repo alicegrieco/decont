@@ -5,9 +5,9 @@ echo "Merging the files..."
 input=$1
 out=$2
 sid=$3
-if [ "$1" == "data" ] 
+if [ "$1" == "data" ]
 then
-	cat $1/$3-12.5dpp.1.1s_sRNA.fastq.gz $1/$3-12.5dpp.1.2s_sRNA.fastq.gz  > $2/$3_merged.fastq.gz
+	cat $1/$3-12.5dpp.1.1s_sRNA.fastq.gz $1/$3-12.5dpp.1.2s_sRNA.fastq.gz  > $2/$3-merged.fastq.gz
 	echo "merged $sid"
 else
 	echo "Error"

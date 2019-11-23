@@ -2,7 +2,7 @@
 # and *optionally* uncompress the downloaded file with gunzip if the third argument contains the word "yes".
 url=$1
 data=$2
-name=$(basename)
+name=$(basename $url)
 if [ "$3" == "yes" ]
 then
 	wget -P $data $url

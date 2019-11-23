@@ -5,4 +5,13 @@
 
 # STAR --runThreadN 4 --runMode genomeGenerate --genomeDir <outdir> --genomeFastaFiles <genomefile> --genomeSAindexNbases 9
 mkdir -p res/contaminants_idx
-STAR --runThreadN 4 --runMode genomeGenerate --genomeDir res/contaminants_idx --genomeFastaFiles res/contaminants.fasta --genomeSAindexNbases 9
+genomefile=$1
+outdir=$2
+
+if [ "$2" == "res/contaminants_idx" ]
+then
+	STAR --runThreadN 4 --runMode genomeGenerate --genomeDir $outdir --genomeFastaFiles $genomefile --genomeSAindexNbases 9
+else
+	echo "Error"
+fi
+
