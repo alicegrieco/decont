@@ -12,7 +12,6 @@ echo
 echo "Downloading the contaminants..."
 # Download the contaminants fasta file, and uncompress it
 bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res yes
-gunzip -k res/contaminants.fasta.gz
 echo
 echo
 echo "contaminats have been downloaded and uncompressed successfully"
@@ -60,7 +59,7 @@ do
 
     # mkdir -p out/star/$sid
 mkdir -p out/star/$sid
-STAR --runThreadN 4 --genomeDir res/contaminants_idx --outReadsUnmapped Fastx --readFilesIn $fname --readFilesCommand zcat --outFileNamePrefix out/star/$sid-
+STAR --runThreadN 4 --genomeDir res/contaminants_idx --outReadsUnmapped Fastx --readFilesIn ${fname} --readFilesCommand zcat --outFileNamePrefix out/star/${sid}/
 
     # STAR --runThreadN 4 --genomeDir res/contaminants_idx --outReadsUnmapped Fastx --readFilesIn <input_file> --readFilesCommand zcat --outFileNamePrefix <output_directory>
 done
@@ -79,13 +78,13 @@ do
 	echo "								" >> log/pipeline.log
 	echo $sid >> log/pipeline.log
 	echo "CUTADAPT" >> log/pipeline.log
-	echo $(cat log/cutadapt/$sid.log | grep -i "Reads with adapters") >> log/pipeline.log
-	echo $(cat log/cutadapt/$sid.log | grep -i "total basepairs") >> log/pipeline.log
+	echo $(cat log/cutadapt/$sid.log | grep  "Reads with adapters") >> log/pipeline.log
+	echo $(cat log/cutadapt/$sid.log | grep  "total basepairs") >> log/pipeline.log
 	echo "								" >> log/pipeline.log
 	echo "STAR" >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep -e "Uniquely mapped reads %") >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep -e "% of reads mapped to multiple loci") >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep -e "% of reads mapped to multiple loci") >> log/pipeline.log
+	echo $(cat out/star/$sid/Log.final.out | grep "Uniquely mapped reads %") >> log/pipeline.log
+	echo $(cat out/star/$sid/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
+	echo $(cat out/star/$sid/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
 done
 echo
 echo
