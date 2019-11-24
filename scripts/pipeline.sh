@@ -73,19 +73,23 @@ echo
 # - cutadapt: Reads with adapters and total basepairs
 # - star: Percentages of uniquely mapped reads, reads mapped to multiple loci, and to too many loci
 
-for sid in $(ls data/*.fastq.gz | cut -d "-" -f1 | sed "s:data/::" | sort | uniq)
+for sid in $(ls data/*.fastq.gz | cut -d "-" -f1 | sed 's:data/::' | sort | uniq )
 do
-	echo "								" >> log/pipeline.log
-	echo $sid >> log/pipeline.log
+	echo "                                                          " >> log/pipeline.log
+	echo ${sid} >> log/pipeline.log
 	echo "CUTADAPT" >> log/pipeline.log
-	echo $(cat log/cutadapt/$sid.log | grep  "Reads with adapters") >> log/pipeline.log
-	echo $(cat log/cutadapt/$sid.log | grep  "total basepairs") >> log/pipeline.log
-	echo "								" >> log/pipeline.log
-	echo "STAR" >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep "Uniquely mapped reads %") >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
-	echo $(cat out/star/$sid/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
+        echo $(cat log/cutadapt/${sid}.log | grep  "Reads with adapters") >> log/pipeline.log
+        echo $(cat log/cutadapt/${sid}.log | grep  "total basepairs") >> log/pipeline.log
+        echo "                                                          " >> log/pipeline.log
+        echo "STAR" >> log/pipeline.log
+        echo $(cat out/star/${sid}/Log.final.out | grep "Uniquely mapped reads %") >> log/pipeline.log
+        echo $(cat out/star/${sid}/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
+        echo $(cat out/star/${sid}/Log.final.out | grep  "% of reads mapped to multiple loci") >> log/pipeline.log
+        echo
+        echo
+        echo "Info about ${sid} have been added in the log file"
 done
+
 echo
 echo
 echo "file pipeline.log created"
